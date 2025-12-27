@@ -97,23 +97,23 @@ function animate() {
   //   dz += 1 * dt;
   angle += Math.PI * dt;
   clear();
-  for (v of vs) {
-    // Render point
-    point(
-      // Translate to HTML coordinates
-      screen(
-        // Project Z in X,Y screen
-        project(
-          // Push in Z
-          translate_z(
-            // Rotate cube
-            rotate_xz(v, angle),
-            dz
-          )
-        )
-      )
-    );
-  }
+  // for (v of vs) {
+  //   // Render point
+  //   point(
+  //     // Translate to HTML coordinates
+  //     screen(
+  //       // Project Z in X,Y screen
+  //       project(
+  //         // Push in Z
+  //         translate_z(
+  //           // Rotate cube
+  //           rotate_xz(v, angle),
+  //           dz
+  //         )
+  //       )
+  //     )
+  //   );
+  // }
   for (l of lines) {
     for (let i = 0; i < l.length; i++) {
       const p1 = vs[l[i]];
