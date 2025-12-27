@@ -7,16 +7,19 @@ const BACKGROUND = "#343A50";
 const FOREGROUND = "#50FF50";
 const size = 10;
 
+// Clear screen
 function clear() {
   ctx.fillStyle = BACKGROUND;
   ctx.fillRect(0, 0, game.width, game.height);
 }
 
+// Render on screen
 function point({ x, y }) {
   ctx.fillStyle = FOREGROUND;
   ctx.fillRect(x - size / 2, y - size / 2, size, size);
 }
 
+// Translate from math to Html canvas coordinates
 function screen({ x, y }) {
   // -1..1 => 0..2 => 0..1 => 0..w/h
   return {
@@ -25,6 +28,7 @@ function screen({ x, y }) {
   };
 }
 
+// Project onto screen
 function project({ x, y, z }) {
   return {
     x: x / z,
@@ -32,6 +36,7 @@ function project({ x, y, z }) {
   };
 }
 
+// Push entire thing in Z direction
 function translate_z({ x, y, z }, dz) {
   return {
     x,
@@ -40,6 +45,7 @@ function translate_z({ x, y, z }, dz) {
   };
 }
 
+// Rotate point by angle
 function rotate_xz({ x, y, z }, angle) {
   const s = Math.sin(angle);
   const c = Math.cos(angle);
@@ -72,8 +78,21 @@ function animate() {
   angle += Math.PI * dt;
   clear();
   for (v of vs) {
-    point(screen(project(translate_z(rotate_xz(v, angle), dz))));
-    // point(screen(project(rotate_xz(v, angle))));
+    // Render
+    point(
+      // Translate to HTML coordinates
+      screen(
+        // Project Z in X,Y screen
+        project(
+          // Push in Z
+          translate_z(
+            // Rotate cube
+            rotate_xz(v, angle),
+            dz
+          )
+        )
+      )
+    );
   }
   setTimeout(animate, dt);
 }
